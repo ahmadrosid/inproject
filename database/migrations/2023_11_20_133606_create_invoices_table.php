@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string("status");
             $table->unsignedBigInteger('project_id');
             $table->foreign('project_id')->references('id')->on('projects');
+            $table->timestamp("due_date");
             $table->timestamps();
         });
     }

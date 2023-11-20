@@ -32,11 +32,14 @@ class TaskResource extends Resource
                         'in_progress' => 'In Progress',
                         'in_review' => 'In Review',
                         'done' => 'Done',
-                    ]),
+                    ])
+                    ->required(),
                 Forms\Components\Select::make('project_id')
                     ->relationship('project', 'name')
                     ->searchable()
                     ->preload()
+                    ->required(),
+                Forms\Components\DatePicker::make('due_date')
                     ->required(),
                 Forms\Components\MarkdownEditor::make('description')
                     ->required()

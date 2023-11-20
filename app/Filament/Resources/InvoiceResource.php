@@ -32,7 +32,10 @@ class InvoiceResource extends Resource
                         'sent' => 'Sent',
                         'approved' => 'Approved',
                         'done' => 'Done',
-                    ]),
+                    ])
+                    ->required(),
+                Forms\Components\DatePicker::make('due_date')
+                    ->required(),
                 Forms\Components\Select::make('project_id')
                     ->relationship('project', 'name')
                     ->searchable()
@@ -48,7 +51,8 @@ class InvoiceResource extends Resource
                 Tables\Columns\TextColumn::make('name'),
                 Tables\Columns\TextColumn::make('status'),
                 Tables\Columns\TextColumn::make('project.name'),
-                Tables\Columns\TextColumn::make('created_at'),
+                Tables\Columns\TextColumn::make('due_date')
+                    ->dateTime(),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('status')

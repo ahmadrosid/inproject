@@ -39,7 +39,8 @@ class ProjectResource extends Resource
                         'in_review' => 'Reviewing Proposal',
                         'in_progress' => 'In Progress',
                         'done' => 'Done',
-                    ]),
+                    ])
+                    ->required(),
                 Forms\Components\DatePicker::make('start_date')
                     ->required()
                     ->maxDate(now()),
