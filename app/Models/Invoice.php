@@ -10,7 +10,7 @@ class Invoice extends Model
 {
     use HasFactory;
 
-    public function owner(): BelongsTo
+    public function project(): BelongsTo
     {
         return $this->belongsTo(Project::class);
     }
