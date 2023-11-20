@@ -23,8 +23,11 @@
 <body class="antialiased">
 
     <section class="relative flex items-center justify-center bg-[#f5f5f5]">
-        <div class="relative mx-auto w-full max-w-7xl items-center px-5 py-12 md:px-12 lg:px-16 lg:py-32">
+        <div class="relative mx-auto w-full max-w-7xl items-center">
             <div>
+                <div class="flex justify-center py-12">
+                    <img width="100" height="100" src="/rocket.png" alt="InProject" />
+                </div>
                 <div class="text-center">
                     <span class="w-auto"><span class="text-sm font-semibold uppercase text-[#4354ff]">In Project</span></span>
                     <p class="mt-8 text-3xl font-extrabold tracking-tight text-black md:text-5xl">Project management<br />for freelancers</p>
@@ -37,7 +40,7 @@
                     </div>
                 </div>
             </div>
-            <div class="mx-auto mt-24 max-w-lg">
+            <div class="mx-auto max-w-lg py-12">
                 <ul class="space-y-3" role="list">
                     <li>
                         <div class="group relative flex items-start space-x-3 rounded-2xl bg-white p-4 shadow">
