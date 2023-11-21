@@ -50,7 +50,7 @@ class TaskResource extends Resource
                                 Forms\Components\Select::make('status')
                                     ->options([
                                         'todo' => 'Todo',
-                                        'in_progress' => 'In Progress',
+                                        'in_progres' => 'In Progress',
                                         'in_review' => 'In Review',
                                         'done' => 'Done',
                                     ])
