@@ -23,7 +23,7 @@ class TaskResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
+                Forms\Components\TextInput::make('title')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\Select::make('status')
@@ -51,10 +51,10 @@ class TaskResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name'),
+                Tables\Columns\TextColumn::make('title'),
                 Tables\Columns\TextColumn::make('status'),
                 Tables\Columns\TextColumn::make('project.name'),
-                Tables\Columns\TextColumn::make('created_at'),
+                Tables\Columns\TextColumn::make('due_date'),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('status')
