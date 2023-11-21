@@ -3,17 +3,21 @@ created:
     - database/factories/TaskFactory.php
     - database/factories/InvoiceFactory.php
     - database/factories/ClientFactory.php
-    - database/migrations/2023_11_21_013239_create_projects_table.php
-    - database/migrations/2023_11_21_013240_create_tasks_table.php
-    - database/migrations/2023_11_21_013241_create_invoices_table.php
-    - database/migrations/2023_11_21_013242_create_clients_table.php
+    - database/factories/AttachmentFactory.php
+    - database/migrations/2023_11_21_034045_create_projects_table.php
+    - database/migrations/2023_11_21_034046_create_tasks_table.php
+    - database/migrations/2023_11_21_034047_create_invoices_table.php
+    - database/migrations/2023_11_21_034048_create_clients_table.php
+    - database/migrations/2023_11_21_034049_create_attachments_table.php
     - app/Models/Project.php
     - app/Models/Task.php
     - app/Models/Invoice.php
     - app/Models/Client.php
+    - app/Models/Attachment.php
 models:
     User: { name: string, email: string, email_verified_at: 'datetime nullable', password: string, remember_token: 'string:100 nullable' }
     Project: { id: id, name: string, slug: string, description: string, price: integer, status: 'enum:draft,in_progres,in_review,done', start_date: timestamp, finish_date: timestamp, client_id: id, relationships: { hasMany: Task } }
     Task: { id: id, title: string, description: text, status: 'enum:todo,in_progres,in_review,done', due_date: timestamp, project_id: id, softdeletes: softDeletes }
     Invoice: { id: id, title: string, status: 'enum:draft,submit,approved,paid', due_date: timestamp, price: integer, project_id: id, softdeletes: softDeletes }
     Client: { id: id, name: string, email: string, company: string, phone_number: 'string nullable', softdeletes: softDeletes }
+    Attachment: { id: id, name: string, path: string, project_id: id, softdeletes: softDeletes }

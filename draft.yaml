@@ -38,3 +38,10 @@ models:
     phone_number: string nullable
     softDeletes
 
+  Attachment:
+    id
+    name: string
+    path: string
+    project_id: id
+    softDeletes
+
