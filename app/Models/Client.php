@@ -4,10 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Task extends Model
+class Client extends Model
 {
     use HasFactory, SoftDeletes;
 
@@ -17,11 +16,10 @@ class Task extends Model
      * @var array
      */
     protected $fillable = [
-        'title',
-        'description',
-        'status',
-        'due_date',
-        'project_id',
+        'name',
+        'email',
+        'company',
+        'phone_number',
     ];
 
     /**
@@ -31,12 +29,5 @@ class Task extends Model
      */
     protected $casts = [
         'id' => 'integer',
-        'due_date' => 'timestamp',
-        'project_id' => 'integer',
     ];
-
-    public function project(): BelongsTo
-    {
-        return $this->belongsTo(Project::class);
-    }
 }

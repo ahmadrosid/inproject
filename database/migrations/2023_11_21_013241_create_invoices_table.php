@@ -13,12 +13,13 @@ return new class extends Migration
     {
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
-            $table->string("name");
-            $table->string("status");
+            $table->string('title');
+            $table->enum('status', ["draft","submit","approved","paid"]);
+            $table->timestamp('due_date');
+            $table->integer('price');
             $table->unsignedBigInteger('project_id');
-            $table->foreign('project_id')->references('id')->on('projects');
-            $table->timestamp("due_date");
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

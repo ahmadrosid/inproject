@@ -16,4 +16,11 @@ class ListInvoices extends ListRecords
             Actions\CreateAction::make(),
         ];
     }
+
+    protected function getHeaderWidgets(): array
+    {
+        return [
+            InvoiceResource\Widgets\InvoiceOverview::class,
+        ];
+    }
 }

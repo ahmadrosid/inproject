@@ -1,0 +1,40 @@
+models:
+  Project:
+    id
+    name: string
+    slug: string
+    description: string
+    price: integer
+    status: enum:draft,in_progres,in_review,done
+    start_date: timestamp
+    finish_date: timestamp
+    client_id: id
+    relationships:
+      hasMany: Task
+
+  Task:
+    id
+    title: string
+    description: text
+    status: enum:todo,in_progres,in_review,done
+    due_date: timestamp
+    project_id: id
+    softDeletes
+
+  Invoice:
+    id
+    title: string
+    status: enum:draft,submit,approved,paid
+    due_date: timestamp
+    price: integer
+    project_id: id
+    softDeletes
+
+  Client:
+    id
+    name: string
+    email: string
+    company: string
+    phone_number: string nullable
+    softDeletes
+

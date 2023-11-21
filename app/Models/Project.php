@@ -2,24 +2,50 @@
 
 namespace App\Models;
 
-use App\Casts\MoneyCast;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Project extends Model
 {
     use HasFactory;
 
-    protected $casts = [
-        'price' => MoneyCast::class,
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'name',
+        'slug',
+        'description',
+        'price',
+        'status',
+        'start_date',
+        'finish_date',
+        'client_id',
     ];
 
-    protected static function boot()
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'id' => 'integer',
+        'start_date' => 'timestamp',
+        'finish_date' => 'timestamp',
+        'client_id' => 'integer',
+    ];
+
+    public function tasks(): HasMany
     {
-        parent::boot();
-        static::creating(function ($model) {
-            $model->slug = Str::slug($model->title);
-        });
+        return $this->hasMany(Task::class);
+    }
+
+    public function client(): BelongsTo
+    {
+        return $this->belongsTo(Client::class);
     }
 }

@@ -12,6 +12,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Str;
 
 class ProjectResource extends Resource
 {
@@ -23,31 +24,74 @@ class ProjectResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('price')
-                    ->numeric()
-                    ->prefix('Rp')
-                    ->maxValue(42949672.95),
-                Forms\Components\TextInput::make('description')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\Select::make('status')
-                    ->options([
-                        'in_discussion' => 'In Discussion',
-                        'in_review' => 'Reviewing Proposal',
-                        'in_progress' => 'In Progress',
-                        'done' => 'Done',
-                    ])
-                    ->required(),
-                Forms\Components\DatePicker::make('start_date')
-                    ->required()
-                    ->maxDate(now()),
-                Forms\Components\DatePicker::make('finish_date')
-                    ->required(),
+                Forms\Components\Group::make()
+                    ->schema([
+                        Forms\Components\Section::make('Project')
+                            ->schema([
+                                Forms\Components\Group::make()
+                                    ->schema([
+                                        Forms\Components\TextInput::make('name')
+                                            ->required()
+                                            ->live(onBlur: true)
+                                            ->afterStateUpdated(function (string $operation, $state, Forms\Set $set) {
+                                                if ($operation !== 'create') {
+                                                    return;
+                                                }
 
-            ]);
+                                                $set('slug', Str::slug($state));
+                                            })
+                                            ->maxLength(255),
+
+                                        Forms\Components\TextInput::make('slug')
+                                            ->disabled()
+                                            ->dehydrated()
+                                            ->required()
+                                            ->unique(Project::class, 'slug', ignoreRecord: true),
+                                    ])
+                                    ->columns(2),
+
+                                Forms\Components\Select::make('client_id')
+                                    ->relationship('client', 'name')
+                                    ->searchable()
+                                    ->preload()
+                                    ->required(),
+                                Forms\Components\MarkdownEditor::make('description')
+                                    ->required()
+                                    ->maxLength(255),
+                            ]),
+                    ])
+                    ->columnSpan(['lg' => 2]),
+
+                Forms\Components\Group::make()
+                    ->schema([
+                        Forms\Components\Section::make('Status')
+                            ->schema([
+                                Forms\Components\TextInput::make('price')
+                                    ->required()
+                                    ->numeric()
+                                    ->prefix('Rp')
+                                    ->maxValue(42949672.95),
+                                Forms\Components\Select::make('status')
+                                    ->options([
+                                        'draft' => 'Draft',
+                                        'in_review' => 'Reviewing Proposal',
+                                        'in_progress' => 'In Progress',
+                                        'done' => 'Done',
+                                    ])
+                                    ->required(),
+                            ]),
+                        Forms\Components\Section::make('Date')
+                            ->schema([
+                                Forms\Components\DatePicker::make('start_date')
+                                    ->required()
+                                    ->maxDate(now()),
+                                Forms\Components\DatePicker::make('finish_date')
+                                    ->required(),
+                            ])
+                            ->columns(2),
+                    ])
+            ])
+            ->columns(3);
     }
 
     public static function table(Table $table): Table
@@ -68,7 +112,7 @@ class ProjectResource extends Resource
             ->filters([
                 Tables\Filters\SelectFilter::make('status')
                     ->options([
-                        'in_discussion' => 'In Discussion',
+                        'draft' => 'Draft',
                         'in_review' => 'Reviewing Proposal',
                         'in_progress' => 'In Progress',
                         'done' => 'Done',

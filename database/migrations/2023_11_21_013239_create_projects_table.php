@@ -13,13 +13,14 @@ return new class extends Migration
     {
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
-            $table->string("slug");
-            $table->string("name");
-            $table->string("description");
-            $table->integer("price");
-            $table->string("status");
-            $table->timestamp("start_date");
-            $table->timestamp("finish_date");
+            $table->string('name');
+            $table->string('slug');
+            $table->string('description');
+            $table->integer('price');
+            $table->enum('status', ["draft","in_progres","in_review","done"]);
+            $table->timestamp('start_date');
+            $table->timestamp('finish_date');
+            $table->unsignedBigInteger('client_id');
             $table->timestamps();
         });
     }

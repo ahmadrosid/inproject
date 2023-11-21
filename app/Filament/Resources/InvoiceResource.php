@@ -23,32 +23,60 @@ class InvoiceResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\Select::make('status')
-                    ->options([
-                        'draft' => 'Draft',
-                        'sent' => 'Sent',
-                        'approved' => 'Approved',
-                        'done' => 'Done',
+                Forms\Components\Group::make()
+                    ->schema([
+                        Forms\Components\Section::make('Invoice')
+                            ->schema([
+                                Forms\Components\Group::make()
+                                    ->schema([
+                                        Forms\Components\TextInput::make('title')
+                                            ->required()
+                                            ->maxLength(255),
+                                        Forms\Components\Select::make('project_id')
+                                            ->relationship('project', 'name')
+                                            ->searchable()
+                                            ->preload()
+                                            ->required(),
+                                    ])
+                                    ->columns(2),
+                                Forms\Components\Group::make()
+                                    ->schema([
+                                        Forms\Components\TextInput::make('price')
+                                            ->required()
+                                            ->numeric()
+                                            ->prefix('Rp')
+                                            ->maxValue(42949672.95),
+                                        Forms\Components\Select::make('status')
+                                            ->options([
+                                                'draft' => 'Draft',
+                                                'sent' => 'Sent',
+                                                'approved' => 'Approved',
+                                                'paid' => 'Paid',
+                                            ])
+                                            ->required(),
+                                    ])
+                                    ->columns(2),
+                            ]),
                     ])
-                    ->required(),
-                Forms\Components\DatePicker::make('due_date')
-                    ->required(),
-                Forms\Components\Select::make('project_id')
-                    ->relationship('project', 'name')
-                    ->searchable()
-                    ->preload()
-                    ->required(),
-            ]);
+                    ->columnSpan(['lg' => 2]),
+
+                Forms\Components\Group::make()
+                    ->schema([
+                        Forms\Components\Section::make('Date')
+                            ->schema([
+                                Forms\Components\DatePicker::make('due_date')
+                                    ->required(),
+                            ])
+                    ]),
+            ])
+            ->columns(3);
     }
 
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name'),
+                Tables\Columns\TextColumn::make('title'),
                 Tables\Columns\TextColumn::make('status'),
                 Tables\Columns\TextColumn::make('project.name'),
                 Tables\Columns\TextColumn::make('due_date')
@@ -60,7 +88,7 @@ class InvoiceResource extends Resource
                         'draft' => 'Draft',
                         'sent' => 'Sent',
                         'approved' => 'Approved',
-                        'done' => 'Done',
+                        'paid' => 'Paid',
                     ]),
             ])
             ->actions([
