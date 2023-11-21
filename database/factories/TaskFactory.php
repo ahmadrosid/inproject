@@ -23,6 +23,7 @@ class TaskFactory extends Factory
     {
         return [
             'title' => $this->faker->sentence(4),
+            'ticket' => $this->faker->word,
             'description' => $this->faker->text,
             'status' => $this->faker->randomElement(["todo","in_progres","in_review","done"]),
             'due_date' => $this->faker->dateTime(),

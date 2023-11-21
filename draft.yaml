@@ -15,6 +15,7 @@ models:
   Task:
     id
     title: string
+    ticket: string nullable
     description: text
     status: enum:todo,in_progres,in_review,done
     due_date: timestamp

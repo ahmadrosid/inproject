@@ -75,7 +75,7 @@ class ProjectResource extends Resource
                                     ->options([
                                         'draft' => 'Draft',
                                         'in_review' => 'Reviewing Proposal',
-                                        'in_progress' => 'In Progress',
+                                        'in_progres' => 'In Progress',
                                         'done' => 'Done',
                                     ])
                                     ->required(),
